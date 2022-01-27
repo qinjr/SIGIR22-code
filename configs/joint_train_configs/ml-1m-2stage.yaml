@@ -1,0 +1,92 @@
+rec_sizes: { # num of items went to next stage
+  'recall': 100,
+  'ranking': 10
+}
+score_sizes: {
+  'recall': 200,
+  'ranking': 100
+}
+
+batch_sizes: {
+  'recall': 200,
+  'ranking': 100
+}
+teacher_batch_size: 256
+
+eval_batch_size: 256
+stage_names: ['recall', 'ranking']
+training_stages_teacher: ['recall', 'ranking']
+training_stages_student: ['recall']
+topk_dict: {
+  'recall': [100],
+  'ranking': [10]
+}
+eval_modes: {
+  'recall': 'list',
+  'ranking': 'list'
+}
+involve_bid: False
+# train_mode: point
+loss_type: mse
+learner: {
+  'student': sgd,
+  'teacher': sgd
+}
+icc_learner: sgd
+learning_rate_icc: 1e-4
+learning_rates_student: {
+  'recall': 1e-6,
+  'ranking': 1e-5
+}
+learning_rates_teacher: {
+  'recall': 1e-4,
+  'ranking': 1e-4
+}
+l2_norm: 1e-4
+weight_decay: 1e-5
+teacher_first: True
+pair_epochs: {
+  'recall': [2, 5, 3], #[pair total epochs (outer for), teacher learning epochs (inner for), student learning epochs (inner for)]
+}
+# for old version: [1,1,1], [6,1,1]
+student_epochs: {
+  'recall': 3,
+}
+teacher_epochs: {
+  'recall': 5,
+  'ranking': 5 #20
+}
+teacher_way: {
+  'recall': 'normal',
+  'ranking': 'normal'
+}
+teacher_loss_type: {
+  'ranking': 'bpr_ll'
+}
+teacher_rand_size: {
+  'ranking': 10
+}
+total_rounds: 2
+max_epochs: 10
+eval_step: 1
+clip_grad_norm: {'max_norm': 5, 'norm_type': 2}
+device: 'cuda:4'
+checkpoint_dir: saved_models/joint
+num_trials: 2
+continue_metrics: {
+  'recall': 'Recall@100',
+  'ranking': 'nDCG@10'
+}
+eval_metric_bigger: True
+seed: 1111
+reproducibility: False
+
+have_hist: False
+alphas: {
+  'recall': 0.2, #0
+}
+use_logit: False
+icc_batch_size: 256
+
+teacher_pos_data: data/ml-1m/feateng_data/train_set_point_pos.pkl
+
